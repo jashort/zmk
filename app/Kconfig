@@ -322,6 +322,7 @@ config ZMK_IDLE_TIMEOUT
 
 config ZMK_SLEEP
     bool "Enable deep sleep support"
+    default y
     imply USB
 
 if ZMK_SLEEP
@@ -331,14 +332,14 @@ config PM_DEVICE
 
 config ZMK_IDLE_SLEEP_TIMEOUT
     int "Milliseconds of inactivity before entering deep sleep"
-    default 900000
+    default 60000
 
 #ZMK_SLEEP
 endif
 
 config ZMK_EXT_POWER
     bool "Enable support to control external power output"
-    default y
+    default n
 
 #Power Management
 endmenu
