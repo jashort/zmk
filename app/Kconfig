@@ -323,7 +323,6 @@ config ZMK_IDLE_TIMEOUT
 config ZMK_SLEEP
     bool "Enable deep sleep support"
     default y
-    imply USB
 
 if ZMK_SLEEP
 
