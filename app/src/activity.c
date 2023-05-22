@@ -71,10 +71,6 @@ void activity_work_handler(struct k_work *work) {
         // Put devices in suspend power mode before sleeping
         set_state(ZMK_ACTIVITY_SLEEP);
         pm_state_force(0U, &(struct pm_state_info){PM_STATE_SOFT_OFF, 0, 0});
-        gpio_pin_configure(p0, 22, GPIO_INPUT | GPIO_PULL_DOWN);
-        gpio_pin_configure(p0, 31, GPIO_INPUT | GPIO_PULL_DOWN);
-        gpio_pin_configure(p0, 6, GPIO_INPUT | GPIO_PULL_DOWN);
-        gpio_pin_configure(p0, 29, GPIO_INPUT | GPIO_PULL_DOWN);
     } else
 #endif /* IS_ENABLED(CONFIG_ZMK_SLEEP) */
         if (inactive_time > MAX_IDLE_MS) {
