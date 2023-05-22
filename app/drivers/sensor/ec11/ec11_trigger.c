@@ -11,6 +11,7 @@
 #include <zephyr/sys/util.h>
 #include <zephyr/kernel.h>
 #include <zephyr/drivers/sensor.h>
+#include <zmk/event_manager.h>
 
 #include "ec11.h"
 
