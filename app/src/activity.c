@@ -8,8 +8,6 @@
 #include <zephyr/init.h>
 #include <zephyr/kernel.h>
 #include <zephyr/pm/pm.h>
-#include <zephyr/pm/device.h>
-#include <zephyr/devicetree.h>
 
 #include <zephyr/logging/log.h>
 
@@ -68,7 +66,6 @@ int activity_event_listener(const zmk_event_t *eh) {
 void activity_work_handler(struct k_work *work) {
     int32_t current = k_uptime_get();
     int32_t inactive_time = current - activity_last_uptime;
-    const struct device *p0 = DEVICE_DT_GET(DT_DRV_INST(0));
 #if IS_ENABLED(CONFIG_ZMK_SLEEP)
     if (inactive_time > MAX_SLEEP_MS && !is_usb_power_present()) {
         // Put devices in suspend power mode before sleeping

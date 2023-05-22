@@ -140,6 +140,9 @@ int zmk_display_init() {
 #if IS_ENABLED(CONFIG_ZMK_DISPLAY_BLANK_ON_IDLE)
 int display_event_handler(const zmk_event_t *eh) {
     struct zmk_activity_state_changed *ev = as_zmk_activity_state_changed(eh);
+
+    const struct device *p0 = DEVICE_DT_GET(DT_DRV_INST(0));
+
     if (ev == NULL) {
         return -ENOTSUP;
     }
@@ -150,6 +153,10 @@ int display_event_handler(const zmk_event_t *eh) {
         break;
     case ZMK_ACTIVITY_IDLE:
     case ZMK_ACTIVITY_SLEEP:
+        gpio_pin_configure(p0, 22, GPIO_INPUT | GPIO_PULL_DOWN);
+        gpio_pin_configure(p0, 31, GPIO_INPUT | GPIO_PULL_DOWN);
+        gpio_pin_configure(p0, 6, GPIO_INPUT | GPIO_PULL_DOWN);
+        gpio_pin_configure(p0, 29, GPIO_INPUT | GPIO_PULL_DOWN);
         stop_display_updates();
         break;
     default:
