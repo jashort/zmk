@@ -8,6 +8,7 @@
 #include <zephyr/init.h>
 #include <zephyr/kernel.h>
 #include <zephyr/pm/pm.h>
+#include <zephyr/pm/device.h>
 
 #include <zephyr/logging/log.h>
 
