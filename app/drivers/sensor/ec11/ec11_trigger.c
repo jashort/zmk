@@ -144,3 +144,34 @@ int ec11_init_interrupt(const struct device *dev) {
 
     return 0;
 }
+
+
+int ec11_event_handler(const zmk_event_t *eh) {
+    struct zmk_activity_state_changed *ev = as_zmk_activity_state_changed(eh);
+
+    const struct device *dev = INT_TO_POINTER(dev_ptr);
+
+    if (ev == NULL) {
+        return -ENOTSUP;
+    }
+
+    switch (ev->state) {
+    case ZMK_ACTIVITY_ACTIVE:
+        LOG_DBG("ZMK_ACTIVITY_ACTIVE!");
+        break;
+    case ZMK_ACTIVITY_IDLE:
+    case ZMK_ACTIVITY_SLEEP:
+        gpio_pin_configure(dev, 22, GPIO_INPUT | GPIO_PULL_DOWN);
+        gpio_pin_configure(dev, 31, GPIO_INPUT | GPIO_PULL_DOWN);
+        gpio_pin_configure(dev, 6, GPIO_INPUT | GPIO_PULL_DOWN);
+        gpio_pin_configure(dev, 29, GPIO_INPUT | GPIO_PULL_DOWN);
+        LOG_DBG("ZMK_ACTIVITY_SLEEP!");
+        break;
+    default:
+        LOG_WRN("Unhandled activity state: %d", ev->state);
+        return -EINVAL;
+    }
+    return 0;
+}
+ZMK_LISTENER(ec11, display_event_handler);
+ZMK_SUBSCRIPTION(ec11, zmk_activity_state_changed);
