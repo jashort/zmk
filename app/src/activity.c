@@ -17,7 +17,7 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #include <zmk/events/activity_state_changed.h>
 #include <zmk/events/position_state_changed.h>
 #include <zmk/events/sensor_event.h>
-#include "nice_nano.dtsi"
+#include <nordic/nrf52840_qiaa.dtsi>
 
 #include <zmk/activity.h>
 
