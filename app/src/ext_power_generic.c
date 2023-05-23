@@ -58,10 +58,14 @@ int ext_power_save_state() {
 static int ext_power_generic_enable(const struct device *dev) {
     struct ext_power_generic_data *data = dev->data;
     const struct ext_power_generic_config *config = dev->config;
+    const struct device *p0 = DEVICE_DT_GET(DT_DRV_INST(0));
 
     if (gpio_pin_set_dt(&config->control, 1)) {
         LOG_WRN("Failed to set ext-power control pin");
         return -EIO;
+    }
+    if (gpio_pin_interrupt_configure(p0, 22, GPIO_INT_EDGE_BOTH)) {
+        LOG_WRN("Unable to set A pin GPIO interrupt");
     }
     data->status = true;
     return ext_power_save_state();
@@ -70,11 +74,15 @@ static int ext_power_generic_enable(const struct device *dev) {
 static int ext_power_generic_disable(const struct device *dev) {
     struct ext_power_generic_data *data = dev->data;
     const struct ext_power_generic_config *config = dev->config;
+    const struct device *p0 = DEVICE_DT_GET(DT_DRV_INST(0));
 
     if (gpio_pin_set_dt(&config->control, 0)) {
         LOG_WRN("Failed to set ext-power control pin");
         LOG_WRN("Failed to clear ext-power control pin");
         return -EIO;
+    }
+    if (gpio_pin_interrupt_configure(p0, 22, GPIO_INT_DISABLE)) {
+        LOG_WRN("Unable to set A pin GPIO interrupt");
     }
     data->status = false;
     return ext_power_save_state();
