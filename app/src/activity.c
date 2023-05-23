@@ -17,6 +17,7 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #include <zmk/events/activity_state_changed.h>
 #include <zmk/events/position_state_changed.h>
 #include <zmk/events/sensor_event.h>
+#include "nice_nano.dtsi"
 
 #include <zmk/activity.h>
 
@@ -71,6 +72,7 @@ void activity_work_handler(struct k_work *work) {
         // Put devices in suspend power mode before sleeping
         set_state(ZMK_ACTIVITY_SLEEP);
         pm_state_force(0U, &(struct pm_state_info){PM_STATE_SOFT_OFF, 0, 0});
+        gpio_pin_interrupt_configure(&gpio, 22, GPIO_INT_DISABLE);
     } else
 #endif /* IS_ENABLED(CONFIG_ZMK_SLEEP) */
         if (inactive_time > MAX_IDLE_MS) {
